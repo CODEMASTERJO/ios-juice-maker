@@ -76,7 +76,7 @@ extension ViewController {
             }
         }
         
-        var actions: [UIAlertAction] {
+        func actions(vc: ViewController) -> [UIAlertAction] {
             switch self {
             case .done:
                 return [
@@ -88,9 +88,7 @@ extension ViewController {
                     // action이 2개라면 cancel은 왼쪽,
                     // cancel은 딱 1개만 존재해야. 그렇지 않으면 런타임에러,
                     UIAlertAction(title: "아니요", style: UIAlertAction.Style.cancel, handler: nil),
-                    UIAlertAction(title: "예", style: UIAlertAction.Style.default) { action in
-                        print(action)
-                    }
+                    UIAlertAction(title: "예", style: UIAlertAction.Style.default, handler: vc.showStoreView)
                 ]
             }
         }
@@ -99,11 +97,25 @@ extension ViewController {
     func alert(alertType: Alert) {
         let alert = UIAlertController(title: Alert.title, message: alertType.message, preferredStyle: UIAlertController.Style.alert)
         
-        for action in alertType.actions {
+        for action in alertType.actions(vc: self) {
             alert.addAction(action)
         }
         
         //메시지 창 컨트롤러를 표시
         self.present(alert, animated: true)
     }
+    
+    func showStoreView(action: UIAlertAction) {
+        guard let storeVC = self.storyboard?.instantiateViewController(identifier: "StoreViewNaviController") as? UINavigationController else {
+            return
+        }
+        storeVC.modalTransitionStyle = .coverVertical
+        storeVC.modalPresentationStyle = .fullScreen
+        
+        self.present(storeVC, animated: true, completion: nil)
+        
+    }
 }
+
+// 구현을 하기는 했는데...
+// rc 문제는 없는지 체크해보기
