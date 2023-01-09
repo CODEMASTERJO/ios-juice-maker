@@ -19,8 +19,20 @@ class ViewController: UIViewController {
     var juiceMaker: JuiceMaker<FruitStore>!
     var updateStoreDelegate: UpdateStore?
     
+    typealias ActionHandler = (()->Void)?
+//    var alertHandlers: [Alert: [UIAlertAction.Style: ActionHandler]]?
+    
     override func viewDidLoad() {
+        
         super.viewDidLoad()
+        
+//        alertHandlers = [
+//            .done(juice): [.default: nil],
+//           .outOfStockError: [
+//               .cancel: nil,
+//               .default: self.showStoreView
+//           ]
+//       ]
         juiceMaker = JuiceMaker(fruitStore: fruitStore)
         
         fruitLabelFruitMap = [
@@ -46,8 +58,8 @@ class ViewController: UIViewController {
         do {
             let juice = try juiceMaker.make(juice: juice)
             alert(alertType: .done(juice))
-        } catch let error as JuiceMakerError  {
-            alert(alertType: .juiceMakerError(error))
+        } catch _ as JuiceMakerError  {
+            alert(alertType: .outOfStockError)
         } catch {
             print(error)
         }
@@ -65,7 +77,7 @@ class ViewController: UIViewController {
 extension ViewController {
     enum Alert {
         case done(Juice)
-        case juiceMakerError(JuiceMakerError)
+        case outOfStockError
         
         static let title = "알림"
         
@@ -73,26 +85,20 @@ extension ViewController {
             switch self {
             case .done(let juice):
                 return "\(juice.rawValue) 나왔습니다! 맛있게 드세요!"
-            case .juiceMakerError(let error):
-                return error.helpMessage
+            case .outOfStockError:
+                return "재료가 모자라요. 재고를 수정할까요?"
             }
         }
-        func actions(ch completeHandler: (()->Void)? = nil, _ cancelHandler: (()->Void)? = nil ) -> [UIAlertAction] {
+        
+        func actions(ch completeHandler: (()->Void)? = nil) -> [UIAlertAction] {
             switch self {
             case .done:
                 return [
-                    UIAlertAction(title: "맛있게 먹기", style: UIAlertAction.Style.default, handler: { _ in
-                        completeHandler?()
-                    })
+                    UIAlertAction(title: "맛있게 먹기", style: UIAlertAction.Style.default)
                 ]
-            case .juiceMakerError:
+            case .outOfStockError:
                 return [
-                    // action이 3개라면 cancel은 제일 아래,
-                    // action이 2개라면 cancel은 왼쪽,
-                    // cancel은 딱 1개만 존재해야. 그렇지 않으면 런타임에러,
-                    UIAlertAction(title: "아니요", style: UIAlertAction.Style.cancel) { _ in
-                        cancelHandler?()
-                    },
+                    UIAlertAction(title: "아니요", style: UIAlertAction.Style.cancel),
                     UIAlertAction(title: "예", style: UIAlertAction.Style.default) { _ in
                         completeHandler?()
                     }
@@ -113,18 +119,18 @@ extension ViewController {
     }
     
     func showStoreView() {
-        guard let storeNaviVC = self.storyboard?.instantiateViewController(identifier: "StoreViewNaviController") else {
+        guard let storeNaviVC = self.storyboard?.instantiateViewController(identifier: "StoreViewNaviController") as? UINavigationController else {
             return
         }
         storeNaviVC.modalTransitionStyle = .coverVertical
         storeNaviVC.modalPresentationStyle = .currentContext
-        guard let storeVC = self.storyboard?.instantiateViewController(identifier: "StoreViewController") as? StoreViewController else {
-            print("haha...")
-            return
+        
+        if let targetVC = storeNaviVC.viewControllers.first(where: { $0 is StoreViewController }) as? StoreViewController {
+            targetVC.someString = "haha"
+//            self.updateStoreDelegate?.updateStock(name: "haha")
         }
-        self.updateStoreDelegate = storeVC
-        self.updateStoreDelegate?.updateStock(name: "haha")
-        self.present(storeNaviVC, animated: true, completion: nil)
+        
+        self.present(storeNaviVC, animated: true)
     }
     
 }

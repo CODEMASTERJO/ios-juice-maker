@@ -243,11 +243,11 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="bananaStock" destination="gvk-pA-Lw5" id="PFY-oI-6Hi"/>
+                        <outlet property="bananaStock" destination="gvk-pA-Lw5" id="JbE-Kb-1BU"/>
                         <outlet property="kiwiStock" destination="FZq-de-TJG" id="5dh-tZ-5kv"/>
                         <outlet property="mangoStock" destination="3Ce-SU-JeH" id="oT2-Wz-Fyi"/>
                         <outlet property="pineappleStock" destination="ccQ-Dk-PuY" id="0vV-Ce-nnT"/>
-                        <outlet property="strawberryStock" destination="Qas-vP-td6" id="Jfq-Zj-Yq1"/>
+                        <outlet property="strawberryStock" destination="Qas-vP-td6" id="3eU-ye-zet"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
