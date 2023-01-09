@@ -7,9 +7,24 @@
 
 import UIKit
 
-class StoreViewController: UIViewController {
+protocol UpdateStore {
+    func updateStock(name: String)
+}
+
+class StoreViewController: UIViewController, UpdateStore {
+    var someString: String?
+    var stock:[Fruit: Int]?
+    var delegate: UpdateStore?
+    
+    @IBOutlet weak var someStringLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        someStringLabel.text = someString
+    }
+    
+    func updateStock(name: String) {
+        self.someString = name
     }
     
     @IBAction func touchApply(_ sender: UIBarButtonItem) {

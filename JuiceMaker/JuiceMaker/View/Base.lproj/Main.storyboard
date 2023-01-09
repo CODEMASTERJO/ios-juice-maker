@@ -238,7 +238,7 @@
                     <navigationItem key="navigationItem" title="맛있는 쥬스를 만들어 드려요!" id="Eal-fj-o4N">
                         <barButtonItem key="rightBarButtonItem" title="재고수정" id="C3q-Te-cNT">
                             <connections>
-                                <segue destination="RYI-5h-sIN" kind="presentation" identifier="showStoreView" modalPresentationStyle="currentContext" id="7OS-P9-w9p"/>
+                                <segue destination="RYI-5h-sIN" kind="presentation" identifier="showStoreViewSegue" modalPresentationStyle="currentContext" id="7OS-P9-w9p"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -375,21 +375,34 @@
                                 <rect key="frame" x="50" y="192" width="94" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </stepper>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xQp-d8-Zeu">
+                                <rect key="frame" x="401" y="282" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="gcO-Xb-kNs"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="xQp-d8-Zeu" firstAttribute="centerX" secondItem="tKV-4l-Vtc" secondAttribute="centerX" id="S7N-jr-xTF"/>
+                            <constraint firstItem="xQp-d8-Zeu" firstAttribute="centerY" secondItem="tKV-4l-Vtc" secondAttribute="centerY" multiplier="1.5" id="aia-2V-9j2"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="g4W-fY-l7r">
-                        <barButtonItem key="rightBarButtonItem" title="적용하기" id="aXR-c0-Z2i">
+                        <barButtonItem key="rightBarButtonItem" title="닫기" id="aXR-c0-Z2i">
                             <connections>
                                 <action selector="touchApply:" destination="Yu1-lM-nqp" id="eAh-7c-1Iv"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="someStringLabel" destination="xQp-d8-Zeu" id="Av4-m7-gaL"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ieh-6D-g1l" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2388.6255924170614" y="900"/>
+            <point key="canvasLocation" x="1659" y="391"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="mhg-iR-a6M">
@@ -407,7 +420,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0Do-vy-dyD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1636.4928909952605" y="900"/>
+            <point key="canvasLocation" x="1659" y="-505"/>
         </scene>
     </scenes>
     <resources>

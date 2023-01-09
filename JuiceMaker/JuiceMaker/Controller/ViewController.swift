@@ -17,6 +17,7 @@ class ViewController: UIViewController {
     var fruitLabelFruitMap: [UILabel: Fruit]!
     var fruitStore = FruitStore(defaultStock: 20)
     var juiceMaker: JuiceMaker<FruitStore>!
+    var updateStoreDelegate: UpdateStore?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,9 +33,12 @@ class ViewController: UIViewController {
         updateStockValue()
     }
     
+    private func parseJuiceName(orderName: String?) -> String? {
+        return orderName?.replacingOccurrences(of: " 주문", with: "")
+    }
+    
     @IBAction func orderButtonTapped(_ sender: UIButton) {
-        let orderName = sender.currentTitle
-        let juiceName = orderName?.replacingOccurrences(of: " 주문", with: "")
+        let juiceName = parseJuiceName(orderName: sender.currentTitle)
         guard let juice = Juice(rawValue: juiceName ?? "") else {
             print("팔 수 없음")
             return
@@ -42,12 +46,10 @@ class ViewController: UIViewController {
         do {
             let juice = try juiceMaker.make(juice: juice)
             alert(alertType: .done(juice))
+        } catch let error as JuiceMakerError  {
+            alert(alertType: .juiceMakerError(error))
         } catch {
-            if let error = error as? JuiceMakerError {
-                alert(alertType: .juiceMakerError(error))
-            } else {
-                print(error)
-            }
+            print(error)
         }
         updateStockValue()
     }
@@ -75,20 +77,25 @@ extension ViewController {
                 return error.helpMessage
             }
         }
-        
-        func actions(vc: ViewController) -> [UIAlertAction] {
+        func actions(ch completeHandler: (()->Void)? = nil, _ cancelHandler: (()->Void)? = nil ) -> [UIAlertAction] {
             switch self {
             case .done:
                 return [
-                    UIAlertAction(title: "맛있게 먹기", style: UIAlertAction.Style.default)
+                    UIAlertAction(title: "맛있게 먹기", style: UIAlertAction.Style.default, handler: { _ in
+                        completeHandler?()
+                    })
                 ]
             case .juiceMakerError:
                 return [
                     // action이 3개라면 cancel은 제일 아래,
                     // action이 2개라면 cancel은 왼쪽,
                     // cancel은 딱 1개만 존재해야. 그렇지 않으면 런타임에러,
-                    UIAlertAction(title: "아니요", style: UIAlertAction.Style.cancel, handler: nil),
-                    UIAlertAction(title: "예", style: UIAlertAction.Style.default, handler: vc.showStoreView)
+                    UIAlertAction(title: "아니요", style: UIAlertAction.Style.cancel) { _ in
+                        cancelHandler?()
+                    },
+                    UIAlertAction(title: "예", style: UIAlertAction.Style.default) { _ in
+                        completeHandler?()
+                    }
                 ]
             }
         }
@@ -97,7 +104,7 @@ extension ViewController {
     func alert(alertType: Alert) {
         let alert = UIAlertController(title: Alert.title, message: alertType.message, preferredStyle: UIAlertController.Style.alert)
         
-        for action in alertType.actions(vc: self) {
+        for action in alertType.actions(ch: self.showStoreView) {
             alert.addAction(action)
         }
         
@@ -105,17 +112,29 @@ extension ViewController {
         self.present(alert, animated: true)
     }
     
-    func showStoreView(action: UIAlertAction) {
-        guard let storeVC = self.storyboard?.instantiateViewController(identifier: "StoreViewNaviController") as? UINavigationController else {
+    func showStoreView() {
+        guard let storeNaviVC = self.storyboard?.instantiateViewController(identifier: "StoreViewNaviController") else {
             return
         }
-        storeVC.modalTransitionStyle = .coverVertical
-        storeVC.modalPresentationStyle = .fullScreen
-        
-        self.present(storeVC, animated: true, completion: nil)
-        
+        storeNaviVC.modalTransitionStyle = .coverVertical
+        storeNaviVC.modalPresentationStyle = .currentContext
+        guard let storeVC = self.storyboard?.instantiateViewController(identifier: "StoreViewController") as? StoreViewController else {
+            print("haha...")
+            return
+        }
+        self.updateStoreDelegate = storeVC
+        self.updateStoreDelegate?.updateStock(name: "haha")
+        self.present(storeNaviVC, animated: true, completion: nil)
     }
+    
 }
 
-// 구현을 하기는 했는데...
-// rc 문제는 없는지 체크해보기
+//
+//extension ViewController {
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if segue.identifier == "showStoreViewSegue" {
+//            let storeVC = segue.destination as? StoreViewController
+//            storeVC.someString = "전달 텍스트"
+//        }
+//    }
+//}
