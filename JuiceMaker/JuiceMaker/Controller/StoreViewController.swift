@@ -8,6 +8,7 @@
 import UIKit
 
 class StoreViewController: UIViewController {
+    var fruitStore: FruitStore?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -16,5 +17,4 @@ class StoreViewController: UIViewController {
     @IBAction func backButtonTapped(_ sender: UIBarButtonItem) {
         dismiss(animated: true)
     }
-
 }
