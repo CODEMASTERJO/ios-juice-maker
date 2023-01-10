@@ -33,6 +33,10 @@ class JuiceMakerViewController: UIViewController {
         updateStockValue()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        updateStockValue()
+    }
+    
     @IBAction func ModifyStockButtonTapped(_ sender: UIBarButtonItem) {
         showStoreView()
     }
@@ -63,10 +67,14 @@ class JuiceMakerViewController: UIViewController {
         storeNaviVC.modalPresentationStyle = .fullScreen
         storeNaviVC.modalTransitionStyle = .coverVertical
         
+        guard let storeVC = storeNaviVC.viewControllers.first(where: { $0 is StoreViewController }) as? StoreViewController else { return }
+        
+        storeVC.fruitStore = fruitStore
+        
         present(storeNaviVC, animated: true)
     }
     
-    private func updateStockValue() {
+    func updateStockValue() {
         for (label, fruit) in fruitLabelFruitMap {
             label.text = String(fruitStore.items[fruit, default: 0])
         }
