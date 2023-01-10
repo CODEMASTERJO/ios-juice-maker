@@ -89,6 +89,18 @@ juice 버튼 title에 각 juice 명칭이 들어가 있음으로 정제하여 �
      }
     ```
 
+## 구현예시
+### 1. 재고 수정 버튼 터치
+![재고 수정 버튼 터치](https://user-images.githubusercontent.com/107622687/211467156-7afd2653-6708-405e-b90a-024a10925ffc.gif)
+
+### 2. 쥬스 주문(성공) - 망키쥬스 선택
+![쥬스 주문(성공)](https://user-images.githubusercontent.com/107622687/211467179-12ba9798-4bfa-43dd-a53d-d504131692b6.gif)\
+망고, 키위 재고 감소
+
+### 3. 쥬스 주문(실패) - 딸기쥬스 주문
+![쥬스 주문(실패)](https://user-images.githubusercontent.com/107622687/211466925-69ea66f9-b3d6-4268-ae70-1ec0ccd6267b.gif)\
+딸기재고 부족으로 실패 alert 표시
+
 ## 🔫 Trouble Shooting
 
 ### 🧭 2개의 Navigation Controller
@@ -107,7 +119,7 @@ push 방식으로 화면을 전환하면 JuiceMakerView에서 쓰던 navigation 
 
 ### 1️⃣ JuiceMakerVC 내 많은 IOBOutlet UILabel들
 
-**고민** 7개나 되는 과일 재고의 IBOutlet label을 관리하는 방법 중
+**고민** 과일 재고(5개)의 IBOutlet label을 관리하는 방법 중
 
 1. 하나의 label을 하나의 IBOutlet 변수에 binding하는 방식
    - Label과 Fruit을 연결하기 위해 Dictionary를 추가적으로 생성해야 했어요.
@@ -130,8 +142,6 @@ push 방식으로 화면을 전환하면 JuiceMakerView에서 쓰던 navigation 
 ❓ 지금의 방식보다 더 가독성이 좋고 편한 방식이 있는지 궁금해요!\
 ❓ 시간이 부족해 IBOutlet Collections에 대한 공부가 부족한 상태로 판단했는데, 위 처럼 판단한 게 맞는지 궁금합니다!
 
-![설명](https://user-images.githubusercontent.com/107124308/211450698-e69f3a7d-a05b-4dc9-9766-4ceb93840c30.png)
-
 ### 2️⃣ 화면 전환 방식, push vs modal
 
 **고민**
@@ -139,11 +149,9 @@ push 방식으로 화면을 전환하면 JuiceMakerView에서 쓰던 navigation 
 
 - modal
   - 재고 수정이 무관한 흐름이라고 판단했어요
-  <!--
-  #TODO: jojo가 정리해주세요 :)
-  -->
-- push:
-  - 재고 수정이 유관한 흐름이라고 판단했어요
+
+- push: 
+  - 쥬스를 만드는 화면에 재고가 표시되고 해당 재고를 수정하는 것이기 때문에 유관한 흐름이라고 판단하였습니다.
 
 **해결** 현재 구현한 방식은 modal이예요.
 
@@ -158,18 +166,14 @@ push 방식으로 화면을 전환하면 JuiceMakerView에서 쓰던 navigation 
 - **재고 수정** 알림창은 결정이 필요한 중요 정보라고 생각해서 alert 형태로 구현했어요
 - 쥬스를 성공적으로 만든 후 알림 창은 이후 특별한 액션을 실행하기 보다는 단순한 알림이므로 alert 형태로 구현했어요
 
-<!--
-#TODO: jojo가 정리해주세요 :)
--->
+### 4️⃣ 화면 전환 구현 방식
 
-### 4️⃣ 화면 전환 방식 (#jojo#)
-
-**고민** 다양한 화면 전환 방식 중 어떤 방식으로 전환할 지 고민했어요.
+**고민** 다양한 화면 전환 구현 방식 중 어떤 방식으로 전환할 지 고민했어요.
 
 1. 직접 segueway
 2. 간접 segueway
 3. 코드로 스토리보드 네비게이션 객체를 생성하여 화면 이동
-4. IBAction 만들기 ??
+4. 코드로 스토리보드 생성 및 객체 연결
 
 **해결** 우리가 적용한 화면 전환 방식은 3번이예요.
 
@@ -178,7 +182,7 @@ push 방식으로 화면을 전환하면 JuiceMakerView에서 쓰던 navigation 
 1. 재고 수정 버튼,
 2. 재고 부족시 발생하는 alert의 `예` 버튼)
 
-storyboard에서 직접 끌어서 전환하기 보다는 화면을 전환하는 함수를 만들어 재사용했어요.
+storyboard에서 세그웨이를 통해 전환하기 보다는 화면을 전환하는 함수를 만들어 활용했어요
 
 ### 5️⃣ 코드 상 일어나지 않을 에러를 처리해야 하는가?
 ```swift
