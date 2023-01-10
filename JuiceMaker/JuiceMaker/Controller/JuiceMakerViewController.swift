@@ -5,36 +5,22 @@
 // 
 
 import UIKit
+import Combine
 
-class JuiceMakerViewController: UIViewController {
-    
-    @IBOutlet private weak var strawberryStock: UILabel!
-    @IBOutlet private weak var bananaStock: UILabel!
-    @IBOutlet private weak var pineappleStock: UILabel!
-    @IBOutlet private weak var kiwiStock: UILabel!
-    @IBOutlet private weak var mangoStock: UILabel!
-    
-    private var fruitLabelFruitMap: [UILabel: Fruit]!
+class JuiceMakerViewController: UIViewController, FruitRepresentable {
+    @IBOutlet private var fruitStocks: [UILabel]!
+
     private var fruitStore = FruitStore(defaultStock: 10)
     private var juiceMaker: JuiceMaker<FruitStore>!
+    private var cancellable: Cancellable?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         juiceMaker = JuiceMaker(fruitStore: fruitStore)
-        
-        fruitLabelFruitMap = [
-            strawberryStock: .strawberry,
-            bananaStock: .banana,
-            pineappleStock: .pineapple,
-            kiwiStock: .kiwi,
-            mangoStock: .mango
-        ]
-        
-        updateStockValue()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        updateStockValue()
+        cancellable = fruitStore.$items
+            .sink { stocks in
+                self.update(targets: self.fruitStocks, with: stocks)
+            }
     }
     
     @IBAction func ModifyStockButtonTapped(_ sender: UIBarButtonItem) {
@@ -57,12 +43,16 @@ class JuiceMakerViewController: UIViewController {
         } catch {
             showAlert(message: "\(error)")
         }
-        
-        updateStockValue()
     }
     
     private func showStoreView() {
         guard let storeNaviVC = storyboard?.instantiateViewController(withIdentifier: "storeNavi") as? UINavigationController else { return }
+        
+//        guard let storeNaviVC = storyboard?.instantiateViewController(identifier: "storeNavi", creator: { coder in
+//            guard let tempVC = storyboard?.instantiateViewController(withIdentifier: "storeNavi") as? UINavigationController else { return }
+//            tempVC[0] = StoreViewController(coder: coder, fruitStore: self.fruitStore)
+//            return tempVC
+//        }) as? UINavigationController else { return }
         
         storeNaviVC.modalPresentationStyle = .fullScreen
         storeNaviVC.modalTransitionStyle = .coverVertical
@@ -73,11 +63,13 @@ class JuiceMakerViewController: UIViewController {
         
         present(storeNaviVC, animated: true)
     }
-    
-    func updateStockValue() {
-        for (label, fruit) in fruitLabelFruitMap {
-            label.text = String(fruitStore.items[fruit, default: 0])
-        }
+}
+
+extension JuiceMakerViewController {
+    @IBSegueAction
+    func createStoreViewController(coder: NSCoder, sender: Any?, segueIdentifier: String?) -> StoreViewController? {
+        print("그냥")
+        return StoreViewController(coder: coder, fruitStore: self.fruitStore)
     }
 }
 

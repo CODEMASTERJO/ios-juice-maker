@@ -6,8 +6,8 @@
 
 import Foundation
 
-final class FruitStore: Storing {
-    private(set) var items: [Fruit : Int] = [:]
+final class FruitStore: Storing, ObservableObject {
+    @Published private(set) var items: [Fruit : Int] = [:]
     
     init(defaultStock count: Int) {
         for fruit in Fruit.allCases {
@@ -37,5 +37,9 @@ final class FruitStore: Storing {
         for (fruit, usedAmount) in pairOfItems {
             try subtract(item: fruit, count: usedAmount)
         }
+    }
+    
+    func setStock(item:Fruit, count:Int) {
+        items[item] = count
     }
 }

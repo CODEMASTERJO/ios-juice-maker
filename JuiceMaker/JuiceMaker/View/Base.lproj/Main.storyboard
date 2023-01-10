@@ -239,15 +239,16 @@
                         <barButtonItem key="rightBarButtonItem" title="재고수정" id="C3q-Te-cNT">
                             <connections>
                                 <action selector="ModifyStockButtonTapped:" destination="BYZ-38-t0r" id="GOL-75-reM"/>
+                                <segue destination="WwV-Td-3Bn" kind="presentation" id="B2s-zR-C3V"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="bananaStock" destination="gvk-pA-Lw5" id="PFY-oI-6Hi"/>
-                        <outlet property="kiwiStock" destination="FZq-de-TJG" id="5dh-tZ-5kv"/>
-                        <outlet property="mangoStock" destination="3Ce-SU-JeH" id="oT2-Wz-Fyi"/>
-                        <outlet property="pineappleStock" destination="ccQ-Dk-PuY" id="0vV-Ce-nnT"/>
-                        <outlet property="strawberryStock" destination="Qas-vP-td6" id="Jfq-Zj-Yq1"/>
+                        <outletCollection property="fruitStocks" destination="Qas-vP-td6" collectionClass="NSMutableArray" id="EB4-TU-fih"/>
+                        <outletCollection property="fruitStocks" destination="gvk-pA-Lw5" collectionClass="NSMutableArray" id="pxs-7E-Zee"/>
+                        <outletCollection property="fruitStocks" destination="ccQ-Dk-PuY" collectionClass="NSMutableArray" id="6np-kc-Z8V"/>
+                        <outletCollection property="fruitStocks" destination="FZq-de-TJG" collectionClass="NSMutableArray" id="K92-XP-7Ww"/>
+                        <outletCollection property="fruitStocks" destination="3Ce-SU-JeH" collectionClass="NSMutableArray" id="lGg-fJ-kcb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -425,11 +426,16 @@
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="bananaStock" destination="gKu-86-RhI" id="7Rb-Lh-4lX"/>
-                        <outlet property="kiwiStock" destination="ZDv-1m-HBY" id="CZj-4H-GHP"/>
-                        <outlet property="mangoStock" destination="YJI-ER-LJR" id="1u5-00-14p"/>
-                        <outlet property="pineappleStock" destination="MpT-VW-hCb" id="9UK-Fl-rW6"/>
-                        <outlet property="strawberryStock" destination="0yV-kn-zaT" id="gZ6-pM-Gir"/>
+                        <outletCollection property="fruitStocks" destination="0yV-kn-zaT" collectionClass="NSMutableArray" id="UX0-V7-9Vi"/>
+                        <outletCollection property="fruitStocks" destination="gKu-86-RhI" collectionClass="NSMutableArray" id="GNI-OP-SFb"/>
+                        <outletCollection property="fruitStocks" destination="MpT-VW-hCb" collectionClass="NSMutableArray" id="oPR-Kn-C8l"/>
+                        <outletCollection property="fruitStocks" destination="ZDv-1m-HBY" collectionClass="NSMutableArray" id="XLp-ot-Tal"/>
+                        <outletCollection property="fruitStocks" destination="YJI-ER-LJR" collectionClass="NSMutableArray" id="51a-Wa-GMf"/>
+                        <outletCollection property="steppers" destination="ZQk-f4-zrz" collectionClass="NSMutableArray" id="bL2-AU-A2U"/>
+                        <outletCollection property="steppers" destination="O5s-2N-3iP" collectionClass="NSMutableArray" id="mqC-Lw-5Sr"/>
+                        <outletCollection property="steppers" destination="Rcr-xr-eqz" collectionClass="NSMutableArray" id="tLf-E0-KaF"/>
+                        <outletCollection property="steppers" destination="klA-59-Nu4" collectionClass="NSMutableArray" id="hmU-EN-Ifd"/>
+                        <outletCollection property="steppers" destination="xbn-6P-grO" collectionClass="NSMutableArray" id="kJs-ry-NPV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ieh-6D-g1l" sceneMemberID="firstResponder"/>
