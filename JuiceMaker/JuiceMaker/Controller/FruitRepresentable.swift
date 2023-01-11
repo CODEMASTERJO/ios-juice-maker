@@ -7,6 +7,10 @@
 
 import Foundation
 
+protocol FruitRepresentDelegate {
+    func updateStockLabel()
+}
+
 protocol FruitRepresentable {
     func update(targets: [FruitAssociated], with: [Fruit: Int])
 }

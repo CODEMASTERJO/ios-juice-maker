@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Combine
 
 class StoreViewController: UIViewController, FruitRepresentable {
     
@@ -14,33 +13,27 @@ class StoreViewController: UIViewController, FruitRepresentable {
     @IBOutlet private var steppers: [UIStepper]!
     
     var fruitStore: FruitStore?
-    private var cancellable: Cancellable?
-
-    init?(coder: NSCoder, fruitStore: FruitStore){
-        self.fruitStore = fruitStore
-        super.init(coder: coder)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    var delegate: FruitRepresentDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        update(targets: steppers, with: fruitStore?.items ?? [:])
-        cancellable = fruitStore?.$items
-            .sink() {
-                self.update(targets: self.fruitStocks, with: $0)
-            }
+        if let stocks = fruitStore?.items {
+            update(targets: steppers, with: stocks)
+            update(targets: fruitStocks, with: stocks)
+        }
     }
     
     @IBAction func stepperPressed(_ sender: UIStepper) {
         guard let fruit = Fruit(rawValue: sender.tag) else { return }
         fruitStore?.setStock(item: fruit, count: sender.stock)
+        // 1개만 업데이트 하는 함수 만들 수 있을까
+        if let stocks = fruitStore?.items {
+            update(targets: fruitStocks, with: stocks)
+        }
     }
     
     @IBAction func backButtonTapped(_ sender: UIBarButtonItem) {
+        delegate?.updateStockLabel()
         dismiss(animated: true)
     }
 }
-

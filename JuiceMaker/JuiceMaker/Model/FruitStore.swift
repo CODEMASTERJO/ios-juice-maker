@@ -7,7 +7,7 @@
 import Foundation
 
 final class FruitStore: Storing, ObservableObject {
-    @Published private(set) var items: [Fruit : Int] = [:]
+    private(set) var items: [Fruit : Int] = [:]
     
     init(defaultStock count: Int) {
         for fruit in Fruit.allCases {

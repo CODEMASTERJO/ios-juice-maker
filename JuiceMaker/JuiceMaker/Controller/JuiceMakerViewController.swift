@@ -5,22 +5,17 @@
 // 
 
 import UIKit
-import Combine
 
 class JuiceMakerViewController: UIViewController, FruitRepresentable {
     @IBOutlet private var fruitStocks: [UILabel]!
 
     private var fruitStore = FruitStore(defaultStock: 10)
     private var juiceMaker: JuiceMaker<FruitStore>!
-    private var cancellable: Cancellable?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         juiceMaker = JuiceMaker(fruitStore: fruitStore)
-        cancellable = fruitStore.$items
-            .sink { stocks in
-                self.update(targets: self.fruitStocks, with: stocks)
-            }
+        updateStockLabel()
     }
     
     @IBAction func ModifyStockButtonTapped(_ sender: UIBarButtonItem) {
@@ -43,33 +38,21 @@ class JuiceMakerViewController: UIViewController, FruitRepresentable {
         } catch {
             showAlert(message: "\(error)")
         }
+        updateStockLabel()
     }
     
     private func showStoreView() {
         guard let storeNaviVC = storyboard?.instantiateViewController(withIdentifier: "storeNavi") as? UINavigationController else { return }
-        
-//        guard let storeNaviVC = storyboard?.instantiateViewController(identifier: "storeNavi", creator: { coder in
-//            guard let tempVC = storyboard?.instantiateViewController(withIdentifier: "storeNavi") as? UINavigationController else { return }
-//            tempVC[0] = StoreViewController(coder: coder, fruitStore: self.fruitStore)
-//            return tempVC
-//        }) as? UINavigationController else { return }
-        
+
         storeNaviVC.modalPresentationStyle = .fullScreen
         storeNaviVC.modalTransitionStyle = .coverVertical
         
         guard let storeVC = storeNaviVC.viewControllers.first(where: { $0 is StoreViewController }) as? StoreViewController else { return }
         
         storeVC.fruitStore = fruitStore
+        storeVC.delegate = self
         
         present(storeNaviVC, animated: true)
-    }
-}
-
-extension JuiceMakerViewController {
-    @IBSegueAction
-    func createStoreViewController(coder: NSCoder, sender: Any?, segueIdentifier: String?) -> StoreViewController? {
-        print("그냥")
-        return StoreViewController(coder: coder, fruitStore: self.fruitStore)
     }
 }
 
@@ -101,5 +84,11 @@ extension JuiceMakerViewController {
         
         alert.addAction(confirmAction)
         present(alert, animated: true)
+    }
+}
+
+extension JuiceMakerViewController: FruitRepresentDelegate {
+    func updateStockLabel() {
+        update(targets: fruitStocks, with: fruitStore.items)
     }
 }
