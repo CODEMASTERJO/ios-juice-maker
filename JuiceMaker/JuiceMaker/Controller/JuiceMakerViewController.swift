@@ -5,8 +5,7 @@
 // 
 
 import UIKit
-
-class JuiceMakerViewController: UIViewController, FruitRepresentable {
+class JuiceMakerViewController: UIViewController, FruitRepresentView {
     @IBOutlet private var fruitStocks: [UILabel]!
 
     private var fruitStore = FruitStore(defaultStock: 10)
@@ -39,6 +38,13 @@ class JuiceMakerViewController: UIViewController, FruitRepresentable {
             showAlert(message: "\(error)")
         }
         updateStockLabel()
+    }
+    
+    func updateStockLabel() {
+        guard let fruitStocks = fruitStocks as? [FruitStockRepresentable] else {
+            return
+        }
+        update(targets: fruitStocks, with: fruitStore.items)
     }
     
     private func showStoreView() {
@@ -87,8 +93,9 @@ extension JuiceMakerViewController {
     }
 }
 
-extension JuiceMakerViewController: FruitRepresentDelegate {
-    func updateStockLabel() {
-        update(targets: fruitStocks, with: fruitStore.items)
+extension JuiceMakerViewController: FruitRepresentViewDelegate {
+    func updateStock(with stocks: [Fruit : Int]) {
+        fruitStore.setStocks(pairOfItems: stocks)
+        updateStockLabel()
     }
 }

@@ -38,9 +38,11 @@ final class FruitStore: Storing {
         }
     }
     
-    func setStocks(pairOfItems stocks:[Fruit: Int]) {
-        stocks.forEach { fruit, stock in
-            items[fruit] = stock
-        }
+    func setStock(item: Fruit, count: Int) {
+        items[item] = count
+    }
+    
+    func setStocks(pairOfItems newStocks:[Fruit: Int]) {
+        items.merge(newStocks) { (_, new) in new }
     }
 }

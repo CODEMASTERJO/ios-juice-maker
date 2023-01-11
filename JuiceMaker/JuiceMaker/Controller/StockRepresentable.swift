@@ -7,12 +7,12 @@
 
 import UIKit
 
-protocol FruitAssociated {
-    var tag: Int { get }
+protocol FruitStockRepresentable {
+    var item: Fruit? { get }
     var stock: Int { get set }
 }
 
-extension UILabel: FruitAssociated {
+extension IngredientLabel<Fruit>: FruitStockRepresentable {
     var stock: Int {
         get {
             return Int(self.text ?? "0") ?? 0
@@ -23,7 +23,7 @@ extension UILabel: FruitAssociated {
     }
 }
 
-extension UIStepper: FruitAssociated {
+extension IngredientStepper<Fruit>: FruitStockRepresentable {
     var stock: Int {
         get {
             return Int(self.value)

@@ -7,33 +7,50 @@
 
 import UIKit
 
-class StoreViewController: UIViewController, FruitRepresentable {
-    
+class StoreViewController: UIViewController, FruitRepresentView {
     @IBOutlet private var fruitStocks: [UILabel]!
     @IBOutlet private var steppers: [UIStepper]!
     
     var fruitStore: FruitStore?
-    var delegate: FruitRepresentDelegate?
+    var delegate: FruitRepresentViewDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let stocks = fruitStore?.items {
-            update(targets: steppers, with: stocks)
-            update(targets: fruitStocks, with: stocks)
+        if let stocks = fruitStore?.items,
+        let fruitSteppers = steppers as? [FruitStockRepresentable],
+        let fruitStockLabels = fruitStocks as? [FruitStockRepresentable] {
+            update(targets: fruitSteppers, with: stocks)
+            update(targets: fruitStockLabels, with: stocks)
         }
     }
     
     @IBAction func stepperPressed(_ sender: UIStepper) {
-//        guard let fruit = Fruit(rawValue: sender.tag) else { return }
-//        fruitStore?.setStock(item: fruit, count: sender.stock)
-        // 1개만 업데이트 하는 함수 만들 수 있을까
-//        if let stocks = fruitStore?.items {
-//            update(targets: fruitStocks, with: stocks)
-//        }
+        guard let sender = sender as? FruitStockRepresentable,
+              let fruit = sender.item else { return }
+        updateLabel(of: fruit, value: sender.stock)
+        fruitStore?.setStock(item: fruit, count: sender.stock)
+    }
+        
+    func updateLabel(of item: Fruit, value: Int) {
+        guard let labels = fruitStocks as? [FruitStockRepresentable],
+              var targetLabel = labels.filter({ $0.item == item }).first else { return }
+        targetLabel.stock = value
     }
     
     @IBAction func backButtonTapped(_ sender: UIBarButtonItem) {
-        delegate?.updateStockLabel()
+        let newStock = parseModifiedStock()
+        delegate?.updateStock(with: newStock)
         dismiss(animated: true)
+    }
+}
+
+extension StoreViewController {
+    private func parseModifiedStock() -> [Fruit: Int] {
+        guard let steppers = steppers as? [FruitStockRepresentable] else { return [:] }
+        let newStock = steppers.reduce(into: [Fruit:Int]()) { partialResult, stepper in
+            guard let item = stepper.item else { return }
+            partialResult[item] = stepper.stock
+        }
+        return newStock
     }
 }

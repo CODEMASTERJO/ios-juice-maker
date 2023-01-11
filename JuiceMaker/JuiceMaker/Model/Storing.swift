@@ -14,6 +14,8 @@ protocol Storing {
     
     mutating func add(item: Item, count: Int)
     mutating func subtract(pairOfItems: [Item: Int]) throws
+    mutating func setStock(item: Item, count: Int)
+    mutating func setStocks(pairOfItems: [Item: Int])
     func hasEnough(pairOfItems: [Item: Int]) -> Bool
 }
 
