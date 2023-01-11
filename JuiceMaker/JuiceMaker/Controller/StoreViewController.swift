@@ -24,12 +24,12 @@ class StoreViewController: UIViewController, FruitRepresentable {
     }
     
     @IBAction func stepperPressed(_ sender: UIStepper) {
-        guard let fruit = Fruit(rawValue: sender.tag) else { return }
-        fruitStore?.setStock(item: fruit, count: sender.stock)
+//        guard let fruit = Fruit(rawValue: sender.tag) else { return }
+//        fruitStore?.setStock(item: fruit, count: sender.stock)
         // 1개만 업데이트 하는 함수 만들 수 있을까
-        if let stocks = fruitStore?.items {
-            update(targets: fruitStocks, with: stocks)
-        }
+//        if let stocks = fruitStore?.items {
+//            update(targets: fruitStocks, with: stocks)
+//        }
     }
     
     @IBAction func backButtonTapped(_ sender: UIBarButtonItem) {

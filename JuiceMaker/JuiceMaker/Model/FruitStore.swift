@@ -6,7 +6,7 @@
 
 import Foundation
 
-final class FruitStore: Storing, ObservableObject {
+final class FruitStore: Storing {
     private(set) var items: [Fruit : Int] = [:]
     
     init(defaultStock count: Int) {
@@ -26,20 +26,21 @@ final class FruitStore: Storing, ObservableObject {
     }
     
     private func subtract(item: Fruit, count: Int) throws {
-        guard let stock = items[item],
-              stock >= count else {
-            throw JuiceMakerError.outOfStock
-        }
         items[item]? -= count
     }
     
-    func subtract(pairOfItems: [Fruit: Int]) throws {
-        for (fruit, usedAmount) in pairOfItems {
+    func subtract(pairOfItems stocks: [Fruit: Int]) throws {
+        guard self.hasEnough(pairOfItems: stocks) else {
+            throw JuiceMakerError.outOfStock
+        }
+        for (fruit, usedAmount) in stocks {
             try subtract(item: fruit, count: usedAmount)
         }
     }
     
-    func setStock(item:Fruit, count:Int) {
-        items[item] = count
+    func setStocks(pairOfItems stocks:[Fruit: Int]) {
+        stocks.forEach { fruit, stock in
+            items[fruit] = stock
+        }
     }
 }

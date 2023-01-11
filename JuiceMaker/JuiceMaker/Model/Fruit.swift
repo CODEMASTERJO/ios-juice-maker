@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Fruit: Int, CaseIterable {
+enum Fruit: Int, CaseIterable, Ingredientable {
     case strawberry = 0
     case banana
     case pineapple

@@ -6,11 +6,11 @@
 
 import Foundation
 
-struct JuiceMaker<T: Storing> where T.Element == Fruit {
-    private(set) var fruitStore: T
+struct JuiceMaker<Store: Storing, Product: Makeable> where Store.Item == Product.Ingredient {
+    private(set) var fruitStore: Store
     
-    mutating func make(juice: Juice) throws {
-        let ingredients: [Fruit: Int] = juice.ingredients
+    mutating func make(juice: Product) throws {
+        let ingredients = juice.ingredients
         try self.fruitStore.subtract(pairOfItems: ingredients)
     }
 }

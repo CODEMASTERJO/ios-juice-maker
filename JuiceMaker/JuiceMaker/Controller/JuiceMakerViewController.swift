@@ -10,7 +10,7 @@ class JuiceMakerViewController: UIViewController, FruitRepresentable {
     @IBOutlet private var fruitStocks: [UILabel]!
 
     private var fruitStore = FruitStore(defaultStock: 10)
-    private var juiceMaker: JuiceMaker<FruitStore>!
+    private var juiceMaker: JuiceMaker<FruitStore, Juice>!
     
     override func viewDidLoad() {
         super.viewDidLoad()
