@@ -9,13 +9,6 @@ import UIKit
 
 protocol FruitJuiceButton {
     var juice: FruitJuice { get }
-    var ingredients: [Fruit: Int] { get }
-}
-
-extension FruitJuiceButton {
-    var ingredients: [Fruit: Int] {
-        self.juice.ingredients
-    }
 }
 
 final class StrawberryJuiceButton: UIButton, FruitJuiceButton {

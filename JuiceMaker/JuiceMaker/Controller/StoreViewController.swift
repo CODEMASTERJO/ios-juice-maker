@@ -27,7 +27,6 @@ class StoreViewController: UIViewController, FruitRepresentView {
     @IBAction func stepperPressed(_ sender: UIStepper) {
         guard let sender = sender as? FruitStockAssociated else { return }
         updateLabel(of: sender.item, value: sender.stock)
-        fruitStore?.setStock(item: sender.item, count: sender.stock)
     }
     
     func updateLabel(of item: Fruit, value: Int) {

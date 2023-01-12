@@ -5,7 +5,9 @@
 // 
 
 import UIKit
+
 class JuiceMakerViewController: UIViewController, FruitRepresentView {
+    
     @IBOutlet private var fruitStocks: [UILabel]!
     
     private var fruitStore = FruitStore(defaultStock: 10)

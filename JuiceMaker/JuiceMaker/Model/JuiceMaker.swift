@@ -14,4 +14,3 @@ struct JuiceMaker<Store: Storing, Product: Makeable> where Store.Item == Product
         try self.fruitStore.subtract(pairOfItems: ingredients)
     }
 }
-
