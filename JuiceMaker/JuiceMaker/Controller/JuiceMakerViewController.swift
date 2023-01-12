@@ -9,7 +9,7 @@ class JuiceMakerViewController: UIViewController, FruitRepresentView {
     @IBOutlet private var fruitStocks: [UILabel]!
     
     private var fruitStore = FruitStore(defaultStock: 10)
-    private var juiceMaker: JuiceMaker<FruitStore, Juice>!
+    private var juiceMaker: JuiceMaker<FruitStore, FruitJuice>!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,16 +22,11 @@ class JuiceMakerViewController: UIViewController, FruitRepresentView {
     }
     
     @IBAction func orderButtonTapped(_ sender: UIButton) {
-        let orderName = sender.currentTitle
-        let juiceName = orderName?.replacingOccurrences(of: " 주문", with: "")
-        guard let juice = Juice(rawValue: juiceName ?? "") else {
-            showAlert(message: "팔 수 없습니다.")
-            return
-        }
+        guard let fruitButton = sender as? FruitJuiceButton else { return }
         
         do {
-            try juiceMaker.make(juice: juice)
-            showAlert(message: "\(juice.rawValue) 나왔습니다! 맛있게 드세요!")
+            try juiceMaker.make(juice: fruitButton.juice)
+            showAlert(message: "\(fruitButton.juice) 나왔습니다! 맛있게 드세요!")
         } catch is JuiceMakerError {
             showFailAlert()
         } catch {
