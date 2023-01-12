@@ -17,22 +17,21 @@ class StoreViewController: UIViewController, FruitRepresentView {
     override func viewDidLoad() {
         super.viewDidLoad()
         if let stocks = fruitStore?.items,
-        let fruitSteppers = steppers as? [FruitStockRepresentable],
-        let fruitStockLabels = fruitStocks as? [FruitStockRepresentable] {
+           let fruitSteppers = steppers as? [FruitStockAssociated],
+           let fruitStockLabels = fruitStocks as? [FruitStockAssociated] {
             update(targets: fruitSteppers, with: stocks)
             update(targets: fruitStockLabels, with: stocks)
         }
     }
     
     @IBAction func stepperPressed(_ sender: UIStepper) {
-        guard let sender = sender as? FruitStockRepresentable,
-              let fruit = sender.item else { return }
-        updateLabel(of: fruit, value: sender.stock)
-        fruitStore?.setStock(item: fruit, count: sender.stock)
+        guard let sender = sender as? FruitStockAssociated else { return }
+        updateLabel(of: sender.item, value: sender.stock)
+        fruitStore?.setStock(item: sender.item, count: sender.stock)
     }
-        
+    
     func updateLabel(of item: Fruit, value: Int) {
-        guard let labels = fruitStocks as? [FruitStockRepresentable],
+        guard let labels = fruitStocks as? [FruitStockAssociated],
               var targetLabel = labels.filter({ $0.item == item }).first else { return }
         targetLabel.stock = value
     }
@@ -46,10 +45,9 @@ class StoreViewController: UIViewController, FruitRepresentView {
 
 extension StoreViewController {
     private func parseModifiedStock() -> [Fruit: Int] {
-        guard let steppers = steppers as? [FruitStockRepresentable] else { return [:] }
+        guard let steppers = steppers as? [FruitStockAssociated] else { return [:] }
         let newStock = steppers.reduce(into: [Fruit:Int]()) { partialResult, stepper in
-            guard let item = stepper.item else { return }
-            partialResult[item] = stepper.stock
+            partialResult[stepper.item] = stepper.stock
         }
         return newStock
     }

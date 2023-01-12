@@ -7,7 +7,7 @@
 import UIKit
 class JuiceMakerViewController: UIViewController, FruitRepresentView {
     @IBOutlet private var fruitStocks: [UILabel]!
-
+    
     private var fruitStore = FruitStore(defaultStock: 10)
     private var juiceMaker: JuiceMaker<FruitStore, Juice>!
     
@@ -41,7 +41,7 @@ class JuiceMakerViewController: UIViewController, FruitRepresentView {
     }
     
     func updateStockLabel() {
-        guard let fruitStocks = fruitStocks as? [FruitStockRepresentable] else {
+        guard let fruitStocks = fruitStocks as? [FruitStockAssociated] else {
             return
         }
         update(targets: fruitStocks, with: fruitStore.items)
@@ -49,7 +49,7 @@ class JuiceMakerViewController: UIViewController, FruitRepresentView {
     
     private func showStoreView() {
         guard let storeNaviVC = storyboard?.instantiateViewController(withIdentifier: "storeNavi") as? UINavigationController else { return }
-
+        
         storeNaviVC.modalPresentationStyle = .fullScreen
         storeNaviVC.modalTransitionStyle = .coverVertical
         
@@ -82,8 +82,8 @@ extension JuiceMakerViewController {
     
     private func showAlert(message: String) {
         let alert = UIAlertController(title: nil,
-                                             message: message,
-                                             preferredStyle: .alert)
+                                      message: message,
+                                      preferredStyle: .alert)
         
         let confirmAction = UIAlertAction(title: "확인",
                                           style: .default)
