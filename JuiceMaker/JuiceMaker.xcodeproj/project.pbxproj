@@ -12,7 +12,7 @@
 		40D5D853296417710006B8A3 /* JuiceMakerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D5D852296417710006B8A3 /* JuiceMakerError.swift */; };
 		B231F73B296DB98100807B43 /* FruitStockAssociated.swift in Sources */ = {isa = PBXBuildFile; fileRef = B231F73A296DB98100807B43 /* FruitStockAssociated.swift */; };
 		B231F73D296DB9FC00807B43 /* FruitRepresentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B231F73C296DB9FC00807B43 /* FruitRepresentView.swift */; };
-		B2E39BB5296EB707000D5DAE /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E39BB4296EB707000D5DAE /* Protocols.swift */; };
+		B2E39BB5296EB707000D5DAE /* Makeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E39BB4296EB707000D5DAE /* Makeable.swift */; };
 		B2E39BBB296EBD98000D5DAE /* FruitLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E39BBA296EBD98000D5DAE /* FruitLabel.swift */; };
 		B2E39BBD296EC7F4000D5DAE /* FruitStepper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E39BBC296EC7F4000D5DAE /* FruitStepper.swift */; };
 		B2E39BE8296FCB99000D5DAE /* FruitJuiceButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E39BE7296FCB99000D5DAE /* FruitJuiceButton.swift */; };
@@ -45,7 +45,7 @@
 		40D5D852296417710006B8A3 /* JuiceMakerError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JuiceMakerError.swift; sourceTree = "<group>"; };
 		B231F73A296DB98100807B43 /* FruitStockAssociated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FruitStockAssociated.swift; sourceTree = "<group>"; };
 		B231F73C296DB9FC00807B43 /* FruitRepresentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FruitRepresentView.swift; sourceTree = "<group>"; };
-		B2E39BB4296EB707000D5DAE /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
+		B2E39BB4296EB707000D5DAE /* Makeable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Makeable.swift; sourceTree = "<group>"; };
 		B2E39BBA296EBD98000D5DAE /* FruitLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FruitLabel.swift; sourceTree = "<group>"; };
 		B2E39BBC296EC7F4000D5DAE /* FruitStepper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FruitStepper.swift; sourceTree = "<group>"; };
 		B2E39BE7296FCB99000D5DAE /* FruitJuiceButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FruitJuiceButton.swift; sourceTree = "<group>"; };
@@ -83,7 +83,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		B2E39BB9296EBD6C000D5DAE /* ViewProtocol */ = {
+		B2E39BB9296EBD6C000D5DAE /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
 				B2E39BBA296EBD98000D5DAE /* FruitLabel.swift */,
@@ -92,12 +92,32 @@
 				B231F73C296DB9FC00807B43 /* FruitRepresentView.swift */,
 				B2E39BE7296FCB99000D5DAE /* FruitJuiceButton.swift */,
 			);
-			path = ViewProtocol;
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		B2E39BE9296FDCD4000D5DAE /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				40D5D8502962C32F0006B8A3 /* Storing.swift */,
+				B2E39BB4296EB707000D5DAE /* Makeable.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		B2E39BEA296FDD10000D5DAE /* Enum */ = {
+			isa = PBXGroup;
+			children = (
+				40D5D84E2962C22F0006B8A3 /* Fruit.swift */,
+				EBBB443B296410C600BC50DF /* Juice.swift */,
+				40D5D852296417710006B8A3 /* JuiceMakerError.swift */,
+			);
+			path = Enum;
 			sourceTree = "<group>";
 		};
 		C71CD66D266C7B470038B9CB /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				B2E39BB9296EBD6C000D5DAE /* Protocol */,
 				C73DAF36255D0CDD00020D38 /* AppDelegate.swift */,
 				C73DAF38255D0CDD00020D38 /* SceneDelegate.swift */,
 				C73DAF3A255D0CDD00020D38 /* JuiceMakerViewController.swift */,
@@ -109,13 +129,10 @@
 		C71CD66F266C7B500038B9CB /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				B2E39BEA296FDD10000D5DAE /* Enum */,
+				B2E39BE9296FDCD4000D5DAE /* Protocol */,
 				C73DAF4B255D0D0400020D38 /* JuiceMaker.swift */,
 				C71CD66A266C7ACB0038B9CB /* FruitStore.swift */,
-				40D5D84E2962C22F0006B8A3 /* Fruit.swift */,
-				40D5D8502962C32F0006B8A3 /* Storing.swift */,
-				EBBB443B296410C600BC50DF /* Juice.swift */,
-				40D5D852296417710006B8A3 /* JuiceMakerError.swift */,
-				B2E39BB4296EB707000D5DAE /* Protocols.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -151,7 +168,6 @@
 		C73DAF35255D0CDD00020D38 /* JuiceMaker */ = {
 			isa = PBXGroup;
 			children = (
-				B2E39BB9296EBD6C000D5DAE /* ViewProtocol */,
 				C71CD66D266C7B470038B9CB /* Controller */,
 				C71CD66F266C7B500038B9CB /* Model */,
 				C71CD671266C7B570038B9CB /* View */,
@@ -279,7 +295,7 @@
 				B231F73B296DB98100807B43 /* FruitStockAssociated.swift in Sources */,
 				C73DAF37255D0CDD00020D38 /* AppDelegate.swift in Sources */,
 				C73DAF39255D0CDD00020D38 /* SceneDelegate.swift in Sources */,
-				B2E39BB5296EB707000D5DAE /* Protocols.swift in Sources */,
+				B2E39BB5296EB707000D5DAE /* Makeable.swift in Sources */,
 				B2E39BBD296EC7F4000D5DAE /* FruitStepper.swift in Sources */,
 				EBBB443C296410C600BC50DF /* Juice.swift in Sources */,
 				40D5D853296417710006B8A3 /* JuiceMakerError.swift in Sources */,
