@@ -7,11 +7,7 @@
 
 import UIKit
 
-protocol FruitLabel: FruitStockAssociated {
-    var text: String? { get set }
-}
-
-extension FruitLabel {
+extension FruitStockAssociated where Self:UILabel {
     var stock: Int {
         get {
             return Int(self.text ?? "0") ?? 0
@@ -22,22 +18,22 @@ extension FruitLabel {
     }
 }
 
-final class StrawberryLabel: UILabel, FruitLabel {
+final class StrawberryLabel: UILabel, FruitStockAssociated {
     var item: Fruit { .strawberry }
 }
 
-final class BananaLabel: UILabel, FruitLabel {
+final class BananaLabel: UILabel, FruitStockAssociated {
     var item: Fruit { .banana }
 }
 
-final class PineappleLabel: UILabel, FruitLabel {
+final class PineappleLabel: UILabel, FruitStockAssociated {
     var item: Fruit { .pineapple }
 }
 
-final class KiwiLabel: UILabel, FruitLabel {
+final class KiwiLabel: UILabel, FruitStockAssociated {
     var item: Fruit { .kiwi }
 }
 
-final class MangoLabel: UILabel, FruitLabel {
+final class MangoLabel: UILabel, FruitStockAssociated {
     var item: Fruit { .mango }
 }

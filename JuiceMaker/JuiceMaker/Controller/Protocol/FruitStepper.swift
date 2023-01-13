@@ -7,11 +7,8 @@
 
 import UIKit
 
-protocol FruitStepper: FruitStockAssociated {
-    var value: Double { get set }
-}
-
-extension FruitStepper {
+// https://stackoverflow.com/questions/40655236/swift-extension-of-a-class-only-when-it-conforms-to-a-specific-protocol
+extension FruitStockAssociated where Self:UIStepper {
     var stock: Int {
         get {
             return Int(self.value)
@@ -22,22 +19,22 @@ extension FruitStepper {
     }
 }
 
-final class StrawberryStepper: UIStepper, FruitStepper {
+final class StrawberryStepper: UIStepper, FruitStockAssociated {
     var item: Fruit { .strawberry }
 }
 
-final class BananaStepper: UIStepper, FruitStepper {
+final class BananaStepper: UIStepper, FruitStockAssociated {
     var item: Fruit { .banana }
 }
 
-final class PineappleStepper: UIStepper, FruitStepper {
+final class PineappleStepper: UIStepper, FruitStockAssociated {
     var item: Fruit { .pineapple }
 }
 
-final class KiwiStepper: UIStepper, FruitStepper {
+final class KiwiStepper: UIStepper, FruitStockAssociated {
     var item: Fruit { .kiwi }
 }
 
-final class MangoStepper: UIStepper, FruitStepper {
+final class MangoStepper: UIStepper, FruitStockAssociated {
     var item: Fruit { .mango }
 }
